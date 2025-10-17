@@ -1,0 +1,19 @@
+{
+    "description": "Contains React components",
+    "private": true,
+    "license": "MIT",
+    "repository": "https://github.com/atmulyana/react-packages",
+    "scripts": {
+        "build:keywords": "npm run build --workspace=@react-packages/keywords",
+        "build:sortable-list": "npm run build --workspace=@react-packages/sortable-list",
+        "start": "npm run dev --workspace=example"
+    },
+    "workspaces": [
+        "packages/keywords",
+        "packages/sortable-list",
+        "example"
+    ],
+    "devDependencies": {
+        "shx": "^0.4.0"
+    }
+}
