@@ -6,7 +6,6 @@ import React, {
     type CSSProperties,
     type FocusEventHandler,
     type KeyboardEventHandler,
-    type MouseEvent,
     type MouseEventHandler,
     type UIEvent,
 } from 'react';
@@ -53,7 +52,7 @@ const defaults = {
     >
         {value?.map(word => <option key={word} value={word} />)}
     </select>,
-    invalidChars: /[^\w'-]/u,
+    invalidChars: /[^\p{L}\p{Number}'-]/u,
     nextKeys: ['ArrowRight', 'Right'],
     prevKeys: ['ArrowLeft', 'Left'],
     separators: /[ ,;]/,
@@ -140,12 +139,10 @@ const defaults = {
     } as TStyles,
 }
 
-function mouseDownHandler(ev: MouseEvent) {
-    ev.preventDefault(); //prevents target to get focus when clicking it (no double trigger of focus)
-}
-function selectStartHandler(ev: Event) {
+function cancelEvent(ev: Event | React.BaseSyntheticEvent) {
+    //In "mousedown" event, it prevents target to get focus when clicking it (no double trigger of focus).
+    //In "selectstart" event, it prevents text selection by dragging mouse.
     ev.preventDefault();
-    return false;
 }
 
 function Item({
@@ -153,7 +150,6 @@ function Item({
     onBlur,
     onClick,
     onFocus,
-    onKeyDown,
     styles,
     word,
 }: {
@@ -162,17 +158,16 @@ function Item({
     onBlur: FocusEventHandler<HTMLAnchorElement>,
     onClick: MouseEventHandler<HTMLDivElement>,
     onFocus: FocusEventHandler<HTMLAnchorElement>,
-    onKeyDown: KeyboardEventHandler<HTMLElement>,
     styles: TItemStyles,
     word: string,
 }) {
     const a = React.useRef<HTMLAnchorElement>(null);
 
     React.useEffect(() => {
-        if (a.current) a.current.parentElement?.addEventListener('selectstart', selectStartHandler);
+        if (a.current) a.current.parentElement?.addEventListener('selectstart', cancelEvent);
         arefCallback(a.current);
         return () => {
-            if (a.current) a.current.parentElement?.removeEventListener('selectstart', selectStartHandler);
+            if (a.current) a.current.parentElement?.removeEventListener('selectstart', cancelEvent);
         }
     //eslint-disable-next-line react-hooks/exhaustive-deps
     }, emptyArray);
@@ -181,8 +176,7 @@ function Item({
         {...styles.itemsBox}
         aria-label={word}
         onClick={onClick}
-        onKeyDown={onKeyDown}
-        onMouseDown={mouseDownHandler}
+        onMouseDown={cancelEvent}
     >
         <span {...styles.word}>{word}</span>
         <a {...styles.close}
@@ -260,6 +254,113 @@ export function createInput<TRef = any, Props extends BaseProps = BaseProps>(par
         itemsBox: buzzedItem,
         word: styles.word,
     };
+
+    const InputText = React.memo(function InputText({
+        $ref,
+        setBuzzedItems,
+        setKeys,
+        words,
+    }:{
+        $ref: React.RefObject<HTMLInputElement | null>,
+        setBuzzedItems: (fn: (items: string[]) => string[]) => void,
+        setKeys: (fn: ((keys: string[]) => string[])) => void,
+        words: {[key: string]: string},
+    }) {
+        const compositionState = React.useRef<{value: string, selectStart: number, selectEnd: number} | null>(null);
+        const handleInput = (data: string, cancel: (isSeparator: boolean) => void) => {
+            if (!$ref.current) return;
+            const inp = $ref.current;
+            if ([...data].length == 1 && separators.test(data)) {
+                cancel(true);
+                let x = inp.selectionStart ?? 0,
+                    y = inp.selectionEnd ?? 0;
+                //If using IME, the separator char has been displayed
+                if (x >= data.length && inp.value.substring(x - data.length, x) == data) x -= data.length; 
+                if (inp.value.substring(y, y + data.length) == data) y += data.length;
+                if (x > 0) {
+                    const newWord = inp.value.substring(0, x);
+                    if (newWord != emptyString) {
+                        const key = newWord.toLocaleLowerCase();
+                        if (key in words) {
+                            if (buzzedDuration > 0) {
+                                setBuzzedItems(items => [...items, key]);
+                                setTimeout(() => {
+                                    setBuzzedItems(items => items.filter(item => item != key));
+                                }, buzzedDuration);
+                            }
+                        }
+                        else {
+                            words[key] = newWord;
+                            setKeys(keys => [...keys, key]);
+                        }
+                    }
+                }
+                inp.value = inp.value.substring(y);
+                inp.selectionStart = inp.selectionEnd = 0;
+            }
+            else if (invalidChars.test(data)) {
+                cancel(false);
+            }
+        }
+
+        const beforeInputHandler = /*React.useCallback(*/(ev: React.InputEvent<HTMLInputElement>) => {
+            if (compositionState.current) return;
+            handleInput(ev.data, () => ev.preventDefault());
+        }
+        //, []);
+        const compositionStartHandler = /*React.useCallback(*/(ev: React.CompositionEvent<HTMLInputElement>) => {
+            const inp = ev.target as HTMLInputElement;
+            compositionState.current = {
+                value: inp.value,
+                selectStart: inp.selectionStart ?? 0,
+                selectEnd: inp.selectionEnd ?? 0,
+            };
+        }
+        //, []);
+        const compositionEndHandler = /*React.useCallback(*/(ev: React.CompositionEvent<HTMLInputElement>) => {
+            if (!compositionState.current) return;
+            const state = compositionState.current;
+            const inp = ev.target as HTMLInputElement;
+            let isCancelled = false, isSeparator = false;
+            if (ev.data) {
+                handleInput(
+                    ev.data,
+                    separator => {
+                        isCancelled = true;
+                        isSeparator = separator;
+                    }
+                );
+            }
+            if (isCancelled) {
+                if (!isSeparator) {
+                    inp.value = state.value;
+                    inp.selectionStart = state.selectStart;
+                    inp.selectionEnd = state.selectEnd;
+                }
+            }
+            else {
+                /**
+                 * Mostly, this block of statements is not needed because IME has taken care of it.
+                 * But sometimes, it doesn't work as expected.
+                 */
+                const str1 = state.value.substring(0, state.selectStart),
+                      str2 = state.value.substring(state.selectEnd, inp.value.length);
+                inp.value = str1 + ev.data + str2;
+                inp.selectionEnd = inp.selectionStart = str1.length + ev.data.length;
+            }
+            compositionState.current = null;
+        }
+        //, []);
+
+        return <input
+            {...styles.inputText}
+            ref={$ref}
+            type='text'
+            onBeforeInput={beforeInputHandler}
+            onCompositionStart={compositionStartHandler}
+            onCompositionEnd={compositionEndHandler}
+        />;
+    }, () => true);
 
     const InternalKeywords = React.memo(function WordList({
         $ref,
@@ -398,40 +499,11 @@ export function createInput<TRef = any, Props extends BaseProps = BaseProps>(par
                     setFocus(getFirst());
                 }
             }
-            else if (tag == 'INPUT' && [...ev.key].length == 1) {
-                if (separators.test(ev.key)) {
-                    ev.preventDefault();
-                    if (inp.selectionEnd ?? 0 > 0) { //the cursor positions after the last char
-                        const len = inp.selectionStart ?? inp.value.length;
-                        const newWord = inp.value.substring(0, len);
-                        if (newWord != emptyString) {
-                            const key = newWord.toLocaleLowerCase();
-                            if (key in words) {
-                                if (buzzedDuration > 0) {
-                                    setBuzzedItems(items => [...items, key]);
-                                    setTimeout(() => {
-                                        setBuzzedItems(items => items.filter(item => item != key));
-                                    }, buzzedDuration);
-                                }
-                            }
-                            else {
-                                words[key] = newWord;
-                                setKeys(keys => [...keys, key]);
-                            }
-                        }
-                        inp.value = inp.value.substring(len);
-                        inp.selectionStart = inp.selectionEnd = 0;
-                    }
-                }
-                else if (invalidChars.test(ev.key)) {
-                    ev.preventDefault();
-                }
-            }
         }
 
         let isBuzzed = false, isSelected = false;
         return <div className={className} style={style}>
-            <div {...styles.container}>
+            <div {...styles.container} onKeyDown={keyDownHandler}>
                 {keys.map(key => (
                 isBuzzed = buzzedItems.includes(key),
                 isSelected = selected == key,
@@ -450,11 +522,15 @@ export function createInput<TRef = any, Props extends BaseProps = BaseProps>(par
                         setFocus(_selected);
                     }}
                     onFocus={() => setSelected(() => key)}
-                    onKeyDown={keyDownHandler}
                     styles={isSelected ? highlightItemStyles : isBuzzed ? buzzedItemStyles : itemStyles}
                     word={words[key]}
                 />))}
-                <input {...styles.inputText} ref={input} type='text' onKeyDown={keyDownHandler} />
+                <InputText
+                    $ref={input}
+                    setBuzzedItems={setBuzzedItems}
+                    setKeys={setKeys}
+                    words={words}
+                />
             </div>
             {Input && <Input {...props as Omit<Props, 'ref' | 'onChange'>} ref={$ref} onChange={noop} value={values} />}
         </div>;
