@@ -11,7 +11,7 @@ export function meta() {
     ];
 }
 
-export default function SortableListDemo() {
+function SortableList1() {
     const [itemELms, setItemElms] = React.useState<SortableChildren>([
         <span className='items-stretch border border-gray-500 px-2 py-1'>
             Item 1
@@ -29,6 +29,14 @@ export default function SortableListDemo() {
             Item 5
         </span>
     ]);
+
+    return <SortableList onOrderChange={elms => setItemElms(elms)}>
+        {itemELms}
+    </SortableList>;
+}
+
+export default function SortableListDemo() {
+    
     const [, setFlag] = React.useState(false);
     const forceRefresh = React.useCallback(() => {
         setFlag(flag => !flag);
@@ -38,9 +46,7 @@ export default function SortableListDemo() {
         <div className='mb-4'>
             <div className='mb-1'>Vertical list with "state" variable</div>
             <div className='flex flex-col border border-blue-500 w-24 p-2 gap-2'>
-            <SortableList onOrderChange={elms => setItemElms(elms)}>
-                {itemELms}
-            </SortableList>
+                <SortableList1 />
             </div>
         </div>
 

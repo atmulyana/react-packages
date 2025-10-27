@@ -22,6 +22,9 @@ const Item = React.memo(function Item({
     overIdx: number,
     setIndex: (idx: number, type: number) => any,
 }) {
+    const $overIdx = React.useRef(overIdx);
+    $overIdx.current = overIdx;
+
     React.useEffect(() => {
         if ($ref) {
             const onDrag = () => {
@@ -33,12 +36,29 @@ const Item = React.memo(function Item({
             };
             const onDragLeave = (ev: DragEvent) => {
                 const toNode = ev.relatedTarget as Node;
-                if (
-                    toNode == $ref.parentElement || 
-                    $ref.contains(toNode) ||
-                    $ref.parentElement?.contains(toNode)
-                ) return;
-                setIndex(-1, 2);
+                if (toNode == null) {
+                    /**
+                     * On Safari (AppleWebKit/605.1.15), `relatedTarget` is always `null`. It causes flicker when dragging an item.
+                     * On Chrome (AppleWebKit/537.36), the same layout engine with older version, `relatedTarget` has a value as expected.
+                     */
+                    ev.stopPropagation();
+                }
+                else if (
+                    toNode != $ref.parentElement &&
+                    !$ref.contains(toNode) &&
+                    !$ref.parentElement?.contains(toNode)
+                ) {
+                    ev.stopPropagation();
+                    setIndex(-1, 2);
+                }
+            };
+            const onDragOver = (ev: Event) => {
+                ev.preventDefault();
+                setIndex($overIdx.current, 2);
+            };
+            const onDrop = (ev: Event) => {
+                ev.preventDefault();
+                setIndex($overIdx.current, 3);
             };
 
             $ref.draggable = true;
@@ -46,6 +66,8 @@ const Item = React.memo(function Item({
             $ref.addEventListener('drag', onDrag);
             $ref.addEventListener('dragend', onDragEnd);
             $ref.addEventListener('dragleave', onDragLeave);
+            $ref.addEventListener('dragover', onDragOver);
+            $ref.addEventListener('drop', onDrop);
 
             return () => {
                 $ref.draggable = $ref.dataset['draggable'] == 'true';
@@ -53,30 +75,11 @@ const Item = React.memo(function Item({
                 $ref.removeEventListener('drag', onDrag);
                 $ref.removeEventListener('dragend', onDragEnd);
                 $ref.removeEventListener('dragleave', onDragLeave);
-            };
-        }
-    }, [$ref]);
-
-    React.useEffect(() => {
-        if ($ref) {
-            const onDragOver = (ev: Event) => {
-                ev.preventDefault();
-                setIndex(overIdx, 2);
-            };
-            const onDrop = (ev: Event) => {
-                ev.preventDefault();
-                setIndex(overIdx, 3);
-            };
-
-            $ref.addEventListener('dragover', onDragOver);
-            $ref.addEventListener('drop', onDrop);
-
-            return () => {
                 $ref.removeEventListener('dragover', onDragOver);
                 $ref.removeEventListener('drop', onDrop);
             };
         }
-    }, [$ref, overIdx]);
+    }, [$ref]);
 
     React.useEffect(() => {
         if ($ref) {
@@ -112,7 +115,7 @@ export default function SortableList({
     onOrderChange,
 }: {
     children: SortableChildren,
-    onOrderChange?: (items: React.ReactElement | React.ReactElement[]) => any,
+    onOrderChange?: (items: SortableChildren) => any,
 }) {
     const firstItem = React.useRef<HTMLInputElement>(null);
     const lastItem = React.useRef<HTMLInputElement>(null);
@@ -169,15 +172,17 @@ export default function SortableList({
             
             const newItems: Item[] = [];
             for (
-                let i = 0, elm: Node | null = firstItem.current.nextSibling;
+                let i = 0, elm: ChildNode | null = firstItem.current.nextSibling;
                 i < items.list.length && elm != lastItem.current;
                 i++, elm = elm?.nextSibling ?? null
             ) {
-                const ref = elm as HTMLElement;
-                ref.dataset['draggable'] = ref.draggable.toString();
-                ref.dataset['cursor'] = ref.style.cursor;
-                ref.dataset['opacity'] = ref.style.opacity;
-                newItems.push({...items.list[i], ref});
+                if (elm?.nodeType == Node.ELEMENT_NODE) {
+                    const ref = elm as HTMLElement;
+                    ref.dataset['draggable'] = ref.draggable.toString();
+                    ref.dataset['cursor'] = ref.style.cursor;
+                    ref.dataset['opacity'] = ref.style.opacity;
+                    newItems.push({...items.list[i], ref});
+                }
             }
             setItems({
                 list: newItems.length > 0 ? newItems : emptyArray,
@@ -225,9 +230,9 @@ export default function SortableList({
                     list: newItems,
                     cause: 1,
                 });
-                flag.dropIdx = -1;
             }
 
+            flag.dropIdx = -1;
             flag.lastDraggedIdx = -1;
             setOverIdx(-1);
         }
