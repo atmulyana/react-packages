@@ -39,7 +39,7 @@ for `Keywords` component. This function will return a component object which can
 element (used in JSX).
 
 The setting object has the following properties (all properties are optional):
-- `buzzedDuration`<a name="#options-buzzedDuration"></a>  
+- `buzzedDuration`<a name="options-buzzedDuration"></a>  
   When a user types a keyword that already exists in the list, the keyword won't be added into the
   list (no duplicate keyword). Instead, the same keyword in the list is highligted at certain
   duration. `buzzedDuration` determines how long the keyword is highlighted in milliseconds. If you
@@ -47,7 +47,7 @@ The setting object has the following properties (all properties are optional):
   `styles.buzzedItemBox` to set CSS style how the duplicate keyword is highlighted.  
   *Default value*: `1500`
 
-- `Input`<a name="#options-Input"></a>  
+- `Input`<a name="options-Input"></a>  
   is a component function/class which renders an input element. If `Keywords` element is placed
   inside a `form` element, the value of this input will be submitted if the form is submitted. This
   element should be invisible (you may use CSS).
