@@ -41,24 +41,24 @@ export function meta() {
 }
 
 export default function KeywordsDemo() {
-    const [keywords1, setKeywords1] = React.useState(emptyArray);
-    const [keywords2, setKeywords2] = React.useState(emptyArray);
+    const [keywords, setKeywords] = React.useState(emptyArray);
     return <form
         className='p-4'
         onSubmit={ev => {
             ev.preventDefault();
-            alert('Keywords 1: ' + keywords1.join(', ') + '\n' +
-                  'Keywords 2: ' + keywords2.join(', ')
+            const formData = new FormData(ev.target as HTMLFormElement);
+            alert('Keywords 1: ' + (formData.getAll('keywords')).join(', ') + '\n' +
+                  'Keywords 2: ' + keywords.join(', ')
             );
         }}
     >
         <div className='mb-4'>
             <label className='block'>Keywords 1 (Default CSS)</label>
-            <Keywords1 onChange={val => setKeywords1(val)} />
+            <Keywords1 name='keywords' />
         </div>
         <div className='mb-4'>
             <label className='block'>Keywords 2 (Tailwind CSS)</label>
-            <Keywords2 onChange={val => setKeywords2(val)} />
+            <Keywords2 onChange={val => setKeywords(val)} />
         </div>
         <button className='bg-blue-500 text-white'>Submit</button>
     </form>;
