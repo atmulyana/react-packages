@@ -36,7 +36,6 @@ function SortableList1() {
 }
 
 export default function SortableListDemo() {
-    
     const [, setFlag] = React.useState(false);
     const forceRefresh = React.useCallback(() => {
         setFlag(flag => !flag);
@@ -50,26 +49,46 @@ export default function SortableListDemo() {
             </div>
         </div>
 
-        <div className='mb-4'>
+        <div className='mb-4' id="list2">
             <div className='mb-1'>Horizontal list without "state" variable</div>
             <div className='flex border border-blue-500 w-120 p-2 gap-2'>
             <SortableList>
                 <span className='flex-1 border border-gray-500 px-2 py-1'>
+                    <input type='hidden' name="id" value="1" />
                     Item 1
                 </span>
                 <span className='flex-1 border border-gray-500 px-2 py-1'>
+                    <input type='hidden' name="id" value="2" />
                     Item 2
                 </span>
                 <span className='flex-1 border border-gray-500 px-2 py-1 !cursor-crosshair'>
+                    <input type='hidden' name="id" value="3" />
                     Item 3
                 </span>
                 <span className='flex-1 border border-gray-500 px-2 py-1'>
+                    <input type='hidden' name="id" value="4" />
                     Item 4
                 </span>
                 <span className='flex-1 border border-gray-500 px-2 py-1'>
+                    <input type='hidden' name="id" value="5" />
                     Item 5
                 </span>
             </SortableList>
+            </div>
+            <div className='mt-1'>
+                <button
+                    className='cursor-pointer font-bold'
+                    type='button'
+                    onClick={() => {
+                        const list = document.getElementById('list2') as HTMLDivElement;
+                        const ids: string[] = [];
+                        const inputs = list.querySelectorAll('input[name=id]');
+                        for (let inp of inputs) {
+                            ids.push((inp as HTMLInputElement).value);
+                        }
+                        alert(ids.join(", "));
+                    }}
+                >See All IDs</button>
             </div>
         </div>
 
