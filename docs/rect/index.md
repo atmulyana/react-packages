@@ -1,19 +1,19 @@
 # @react-packages/rect
 It's React component to render a flex box that keeps the aspect ratio between its height and width
 even when it's resized. For example:
-```
+<pre>
 import Rect from '@react-packages/rect';
 
 ...
 
-<div
+&lt;div
     style={{
         display: 'flex',
         gap: '8px',
         width: '25%',
     }}
->
-    <Rect
+&gt;
+    &lt;Rect
         style={{
             borderStyle: 'solid',
             borderWidth: '1px',
@@ -21,8 +21,8 @@ import Rect from '@react-packages/rect';
             paddingInline: '8px',
             paddingBlock: '4px',
         }}
-    />
-    <Rect
+    /&gt;
+    &lt;Rect
         style={{
             borderStyle: 'solid',
             borderWidth: '1px',
@@ -30,8 +30,8 @@ import Rect from '@react-packages/rect';
             paddingInline: '8px',
             paddingBlock: '4px',
         }}
-    />
-    <Rect
+    /&gt;
+    &lt;Rect
         style={{
             borderStyle: 'solid',
             borderWidth: '1px',
@@ -39,9 +39,9 @@ import Rect from '@react-packages/rect';
             paddingInline: '8px',
             paddingBlock: '4px',
         }}
-    />
-</div>
-```
+    /&gt;
+&lt;/div&gt;
+</pre>
 The JSX code part above will render three square boxes (height and width have ratio 1:1). If we want
 different ratio, we can define `ratioX` and/or `ratioY` prop.
 
