@@ -4,12 +4,16 @@
     "license": "MIT",
     "repository": "https://github.com/atmulyana/react-packages",
     "scripts": {
+        "build:ellipsis": "npm run build --workspace=@react-packages/ellipsis",
         "build:keywords": "npm run build --workspace=@react-packages/keywords",
+        "build:rect": "npm run build --workspace=@react-packages/rect",
         "build:sortable-list": "npm run build --workspace=@react-packages/sortable-list",
         "start": "npm run dev --workspace=example"
     },
     "workspaces": [
+        "packages/ellipsis",
         "packages/keywords",
+        "packages/rect",
         "packages/sortable-list",
         "example"
     ],

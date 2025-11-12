@@ -3,6 +3,7 @@
 need to install the entire packages.
 
 The list of components:
+- [`Ellipsis`](./ellipsis/)
 - [`Keywords`](./keywords/)
+- [`Rect`](./rect/)
 - [`SortableList`](./sortable-list/)
-- ... More under development ...

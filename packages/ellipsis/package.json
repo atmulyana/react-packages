@@ -1,0 +1,43 @@
+{
+    "name": "@react-packages/ellipsis",
+    "version": "1.0.0",
+    "description": "React component that gives an ellipsis mark on an overflow text without needing to set a fixed length. It can comportably be used in a responsive design.",
+    "author": "AT Mulyana <atmulyana@yahoo.com>",
+    "license": "MIT",
+    "repository": "https://github.com/atmulyana/react-packages",
+    "keywords": [
+        "react",
+        "component",
+        "ellipsis",
+        "overflow",
+        "text",
+        "responsive",
+        "design"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "build:cjs": "tsc -b .",
+        "build:esm": "tsc -b tsconfig.esm.json",
+        "build": "shx rm -f *.tsbuildinfo && npm run build:esm && shx cp -f ./index.js ./index.mjs && npm run build:cjs",
+        "prepack": "npm run build && shx cp -u ../../LICENSE ./LICENSE"
+    },
+    "exports": {
+        ".": {
+            "types": "./index.d.ts",
+            "import": "./index.mjs",
+            "default": "./index.js"
+        }
+    },
+    "files": [
+        "index.*"
+    ],
+    "devDependencies": {
+        "@types/react": "^19.1.13",
+        "typescript": "^5.9.2"
+    },
+    "peerDependencies": {
+        "react": ">=16.8.0"
+    }
+}

@@ -45,8 +45,8 @@ can set CSS of those elements as if no `SortableList` element.
 
 ### Using *state* variable to make the order of items persistent
 If we use the example above, the order of items will be reverted to the beginning order when the
-component is re-rendered. To make the order persistent, we must use a *state* variable as the
-following example:
+component containing `SortableList` is re-rendered. To make the order persistent, we must use a
+*state* variable as the following example:
 ```typescript
 import React from 'react';
 import SortableList, {type SortableChildren} from '@react-packages/sortable-list';
@@ -81,8 +81,9 @@ export default function SortableListDemo() {
 ### How to save the new order of items into database
 Usually, the purpose of using this component is we want to re-order the items in the list and save
 the new order into database. Now, how to read the new order of items? In DOM API, there is
-`querySelectorAll` function that can read the latest HTML structure that has dynamically changed.
-Need to remember, `SortableList` changes HTML structure.
+[`querySelectorAll`](https://developer.mozilla.org/en-US/docs/Web/API/Element/querySelectorAll)
+function that can read the latest HTML structure that has dynamically changed. Need to remember,
+`SortableList` changes HTML structure.
 
 > The *state* variable in the example above, contains `React.ReactElement` object. It's hard to
 > read.

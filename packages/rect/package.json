@@ -1,0 +1,46 @@
+{
+    "name": "@react-packages/rect",
+    "version": "1.0.0",
+    "description": "Flex Box that keeps the aspect ratio between its height and width even when it's resized",
+    "author": "AT Mulyana <atmulyana@yahoo.com>",
+    "license": "MIT",
+    "repository": "https://github.com/atmulyana/react-packages",
+    "keywords": [
+        "react",
+        "component",
+        "flex",
+        "box",
+        "aspect",
+        "ratio"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "build:cjs": "tsc -b .",
+        "build:esm": "tsc -b tsconfig.esm.json",
+        "build": "shx rm -f *.tsbuildinfo && npm run build:esm && shx cp -f ./index.js ./index.mjs && npm run build:cjs",
+        "prepack": "npm run build && shx cp -u ../../LICENSE ./LICENSE"
+    },
+    "exports": {
+        ".": {
+            "types": "./index.d.ts",
+            "import": "./index.mjs",
+            "default": "./index.js"
+        }
+    },
+    "files": [
+        "index.*"
+    ],
+    "dependencies": {
+        "javascript-common": ">=0.1.0",
+        "reactjs-common": "^0.1.0"
+    },
+    "devDependencies": {
+        "@types/react": "^19.1.13",
+        "typescript": "^5.9.2"
+    },
+    "peerDependencies": {
+        "react": ">=16.8.0"
+    }
+}
