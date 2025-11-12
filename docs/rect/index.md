@@ -1,7 +1,7 @@
 # @react-packages/rect
 It's React component to render a flex box that keeps the aspect ratio between its height and width
 even when it's resized. For example:
-```typescript
+```jsx
 import Rect from '@react-packages/rect';
 
 ...
@@ -53,7 +53,7 @@ another side so that the ratio between sides is fulfilled.
 
 ### The usage
 For example, we want to render an image centered inside a box. We can use the following example:
-```typescript
+```jsx
 import Rect, {styles} from '@react-packages/rect';
 
 ...
