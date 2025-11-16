@@ -1,0 +1,4 @@
+*/**/tsconfig.cjs.json
+*/**/tsconfig.esm.json
+index.*
+!index.tsx

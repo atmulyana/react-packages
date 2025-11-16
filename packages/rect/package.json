@@ -17,9 +17,7 @@
         "access": "public"
     },
     "scripts": {
-        "build:cjs": "tsc -b .",
-        "build:esm": "tsc -b tsconfig.esm.json",
-        "build": "shx rm -f *.tsbuildinfo && npm run build:esm && shx cp -f ./index.js ./index.mjs && npm run build:cjs",
+        "build": "node ../build-index.js rect",
         "prepack": "npm run build && shx cp -u ../../LICENSE ./LICENSE"
     },
     "exports": {

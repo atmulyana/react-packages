@@ -1,27 +1,15 @@
 {
-    "name": "@react-packages/sortable-list",
+    "name": "@react-packages/common",
     "version": "1.0.0",
-    "description": "React component that can rearrange an item position in the list by dragging it to the expected position (can change the order of items)",
+    "description": "Shared package used by the packages in @react-packages",
     "author": "AT Mulyana <atmulyana@yahoo.com>",
     "license": "MIT",
     "repository": "https://github.com/atmulyana/react-packages",
-    "keywords": [
-        "react",
-        "component",
-        "rearrange",
-        "sortable",
-        "sorted",
-        "list",
-        "item",
-        "order",
-        "reorder",
-        "widget"
-    ],
     "publishConfig": {
         "access": "public"
     },
     "scripts": {
-        "build": "node ../build-index.js sortable-list",
+        "build": "node ../build-index.js common",
         "prepack": "npm run build && shx cp -u ../../LICENSE ./LICENSE"
     },
     "exports": {
@@ -34,9 +22,6 @@
     "files": [
         "index.*"
     ],
-    "dependencies": {
-        "javascript-common": ">=0.1.0"
-    },
     "devDependencies": {
         "@types/react": "^19.1.13",
         "typescript": "^5.9.2"

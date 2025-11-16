@@ -62,7 +62,7 @@ All props are optional.
   component is mounted and when `children` is rendered. At mounted stage, `children` may not be
   rendered yet because the component must probe which side (height/width) that must be recalculated.
   After clear, `children` will be rendered and this function is invoked again. `isRendered` is
-  `true` if `childrem` has been rendered. To avoid probing, please define `vertical` prop.
+  `true` if `children` has been rendered. To avoid probing, please define `vertical` prop.
 - `ratioX`  
   is a ratio number for width side. Along with `ratioY` prop, it will produce the width as long as
   `ratioX / ratioY` of height.  

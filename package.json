@@ -4,6 +4,7 @@
     "license": "MIT",
     "repository": "https://github.com/atmulyana/react-packages",
     "scripts": {
+        "build:common": "npm run build --workspace=@react-packages/common",
         "build:ellipsis": "npm run build --workspace=@react-packages/ellipsis",
         "build:keywords": "npm run build --workspace=@react-packages/keywords",
         "build:rect": "npm run build --workspace=@react-packages/rect",
@@ -11,6 +12,7 @@
         "start": "npm run dev --workspace=example"
     },
     "workspaces": [
+        "packages/common",
         "packages/ellipsis",
         "packages/keywords",
         "packages/rect",
