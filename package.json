@@ -8,6 +8,7 @@
         "build:ellipsis": "npm run build --workspace=@react-packages/ellipsis",
         "build:keywords": "npm run build --workspace=@react-packages/keywords",
         "build:rect": "npm run build --workspace=@react-packages/rect",
+        "build:simple-images-slider": "npm run build --workspace=@react-packages/simple-images-slider",
         "build:sortable-list": "npm run build --workspace=@react-packages/sortable-list",
         "start": "npm run dev --workspace=example"
     },
@@ -16,6 +17,7 @@
         "packages/ellipsis",
         "packages/keywords",
         "packages/rect",
+        "packages/simple-images-slider",
         "packages/sortable-list",
         "example"
     ],

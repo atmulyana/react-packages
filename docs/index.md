@@ -6,4 +6,5 @@ The list of components:
 - [`Ellipsis`](./ellipsis/)
 - [`Keywords`](./keywords/)
 - [`Rect`](./rect/)
+- [`SimpleImagesSlider`](./simple-images-slider/)
 - [`SortableList`](./sortable-list/)
