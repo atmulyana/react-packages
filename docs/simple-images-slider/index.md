@@ -14,7 +14,7 @@ The following video shows how it works:
     src='./slider.mp4'
     loop
     muted
-/>
+></video>
 
 ### How to use it
 To use it with the default options, follow the example below:
