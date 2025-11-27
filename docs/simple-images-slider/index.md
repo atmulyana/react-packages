@@ -47,8 +47,8 @@ the options for the component. The properties are (all properties are optional):
   It's the content for the left button that is the button for showing the previous image. The
   content is `ReactNode` object.  
   *The default value:*  
-  <pre>
-  &lt;div style={{
+  ```javascript
+  <div style={ {
     borderColor: 'white',
     borderWidth: '3px',
     borderRightWidth: '0px',
@@ -57,8 +57,8 @@ the options for the component. The properties are (all properties are optional):
     height: '11px',
     rotate: '45deg',
     width: '11px',
-  }}>&lt;/div>
-  </pre>
+  } }></div>
+  ```
   The element above shows a left arrow.
 
 - `maxVisibleCount`<a name="params-maxVisibleCount"></a>  
@@ -81,8 +81,8 @@ the options for the component. The properties are (all properties are optional):
   It's the content for the right button that is the button for showing the next image. The content
   is `ReactNode` object.  
   *The default value:*  
-  <pre>
-  &lt;div style={{
+  ```javascript
+  <div style={ {
     borderColor: 'white',
     borderWidth: '3px',
     borderBottomWidth: '0px',
@@ -91,7 +91,7 @@ the options for the component. The properties are (all properties are optional):
     height: '11px',
     rotate: '45deg',
     width: '11px',
-  }}>&lt;/div>
+  } }></div>
   </pre>
   The element above shows a right arrow.
 
@@ -210,12 +210,12 @@ Only `images` is required, the other ones are optional.
 - `images`    
   It's an array of image URL and optionally the value for `alt` attribute of `img` element. Each
   item in the array has type:  
-  `   string | {src: string, alt?: string}`  
+  `string | {src: string, alt?: string}`  
   If it's a string then it's for `src` attribute.
 
 - `onChange`   
   It's a function whose type of   
-  `   ({selected: number, start: number}) => any`   
+  `({selected: number, start: number}) => any`   
   `selected` is the index number of selected image (when the user clicks/touches the image).
   `start` is the start index number of the visible images. There may be more than one visible
   images. This function is invoked every time any change to selected index and/or start index.
