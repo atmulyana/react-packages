@@ -47,8 +47,8 @@ the options for the component. The properties are (all properties are optional):
   It's the content for the left button that is the button for showing the previous image. The
   content is `ReactNode` object.  
   *The default value:*  
-  ```javascript
-  <div style={{
+  <pre>
+  &lt;div style={{
     borderColor: 'white',
     borderWidth: '3px',
     borderRightWidth: '0px',
@@ -57,8 +57,8 @@ the options for the component. The properties are (all properties are optional):
     height: '11px',
     rotate: '45deg',
     width: '11px',
-  }}></div>
-  ```
+  }}>&lt;/div>
+  </pre>
   The element above shows a left arrow.
 
 - `maxVisibleCount`<a name="params-maxVisibleCount"></a>  
@@ -81,8 +81,8 @@ the options for the component. The properties are (all properties are optional):
   It's the content for the right button that is the button for showing the next image. The content
   is `ReactNode` object.  
   *The default value:*  
-  ```javascript
-  <div style={{
+  <pre>
+  &lt;div style={{
     borderColor: 'white',
     borderWidth: '3px',
     borderBottomWidth: '0px',
@@ -91,8 +91,8 @@ the options for the component. The properties are (all properties are optional):
     height: '11px',
     rotate: '45deg',
     width: '11px',
-  }}></div>
-  ```
+  }}>&lt;/div>
+  </pre>
   The element above shows a right arrow.
 
 - `styles`  
