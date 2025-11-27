@@ -7,14 +7,7 @@ This kind of component is also called "carousel".
 the images. This component provides two buttons for sliding the images.
 
 The following video shows how it works:  
-<video
-    autoplay
-    disablepictureinpicture
-    disableremoteplayback
-    src='./slider.mp4'
-    loop
-    muted
-></video>
+![Slider Video](./slider.gif)
 
 ### How to use it
 To use it with the default options, follow the example below:
