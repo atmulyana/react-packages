@@ -92,7 +92,7 @@ the options for the component. The properties are (all properties are optional):
     rotate: '45deg',
     width: '11px',
   } }></div>
-  </pre>
+  ```
   The element above shows a right arrow.
 
 - `styles`  
@@ -209,13 +209,17 @@ Only `images` is required, the other ones are optional.
 
 - `images`    
   It's an array of image URL and optionally the value for `alt` attribute of `img` element. Each
-  item in the array has type:  
-  `string | {src: string, alt?: string}`  
+  item in the array has type:
+
+        string | {src: string, alt?: string}
+
   If it's a string then it's for `src` attribute.
 
 - `onChange`   
-  It's a function whose type of   
-  `({selected: number, start: number}) => any`   
+  It's a function whose type of
+
+        ({selected: number, start: number}) => any
+  
   `selected` is the index number of selected image (when the user clicks/touches the image).
   `start` is the start index number of the visible images. There may be more than one visible
   images. This function is invoked every time any change to selected index and/or start index.
