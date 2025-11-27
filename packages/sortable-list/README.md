@@ -7,4 +7,4 @@ position (can change the order of items).
 ![Vertical List](https://atmulyana.github.io/react-packages/sortable-list/vertical.gif)
 
 Please see this [documentation](https://atmulyana.github.io/react-packages/sortable-list/) and this
-[`example`](https://github.com/atmulyana/react-packages/tree/main/example/app/routes/sortable-list.tsx).
+[example](https://github.com/atmulyana/react-packages/tree/main/example/app/routes/sortable-list.tsx).

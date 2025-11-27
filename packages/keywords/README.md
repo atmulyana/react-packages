@@ -5,4 +5,4 @@ It has the interface to add or delete a keyword easily.
 ![Input Image](https://atmulyana.github.io/react-packages/keywords/input.gif)
 
 Please see this [documentation](https://atmulyana.github.io/react-packages/keywords/) and this
-[`example`](https://github.com/atmulyana/react-packages/tree/main/example/app/routes/keywords.tsx).
+[example](https://github.com/atmulyana/react-packages/tree/main/example/app/routes/keywords.tsx).
