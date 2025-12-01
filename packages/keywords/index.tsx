@@ -3,18 +3,13 @@
  * https://github.com/atmulyana/react-packages
  **/
 import React, {
-    type CSSProperties,
     type FocusEventHandler,
     type KeyboardEventHandler,
     type MouseEventHandler,
     type UIEvent,
 } from 'react';
 import {emptyArray, emptyObject, emptyString, noop} from 'javascript-common';
-
-type TStyle = {
-    className?: string,
-    style?: CSSProperties,
-};
+import {cancelEventHandler, extendStyle, type TStyle} from '@react-packages/common';
 
 type TItemStyles = {
     close: TStyle,
@@ -139,12 +134,6 @@ const defaults = {
     } as TStyles,
 }
 
-function cancelEvent(ev: Event | React.BaseSyntheticEvent) {
-    //In "mousedown" event, it prevents target to get focus when clicking it (no double trigger of focus).
-    //In "selectstart" event, it prevents text selection by dragging mouse.
-    ev.preventDefault();
-}
-
 function Item({
     arefCallback,
     onBlur,
@@ -164,10 +153,10 @@ function Item({
     const a = React.useRef<HTMLAnchorElement>(null);
 
     React.useEffect(() => {
-        if (a.current) a.current.parentElement?.addEventListener('selectstart', cancelEvent);
+        if (a.current) a.current.parentElement?.addEventListener('selectstart', cancelEventHandler);
         arefCallback(a.current);
         return () => {
-            if (a.current) a.current.parentElement?.removeEventListener('selectstart', cancelEvent);
+            if (a.current) a.current.parentElement?.removeEventListener('selectstart', cancelEventHandler);
         }
     //eslint-disable-next-line react-hooks/exhaustive-deps
     }, emptyArray);
@@ -176,7 +165,7 @@ function Item({
         {...styles.itemsBox}
         aria-label={word}
         onClick={onClick}
-        onMouseDown={cancelEvent}
+        onMouseDown={cancelEventHandler}
     >
         <span {...styles.word}>{word}</span>
         <a {...styles.close}
@@ -210,34 +199,9 @@ export function createInput<TRef = any, Props extends BaseProps = BaseProps>(par
         separators = defaults.separators,
         styles = defaults.styles,
     } = parameters ?? (emptyObject as NonNullable<typeof parameters>);
-    const highlightItem: TStyle = {
-        className: (
-            styles.itemsBox.className && styles.highlightItemBox?.className
-            && `${styles.itemsBox.className} ${styles.highlightItemBox.className}`
-        )
-        || styles.itemsBox.className 
-        || styles.highlightItemBox?.className,
-        style: (
-            styles.itemsBox.style && styles.highlightItemBox?.style
-            && {...styles.itemsBox.style, ...styles.highlightItemBox.style}
-        )
-        || styles.itemsBox.style
-        || styles.highlightItemBox?.style,
-    },
-    buzzedItem: TStyle = {
-        className: (
-            styles.itemsBox.className && styles.buzzedItemBox?.className
-            && `${styles.itemsBox.className} ${styles.buzzedItemBox.className}`
-        )
-        || styles.itemsBox.className 
-        || styles.buzzedItemBox?.className,
-        style: (
-            styles.itemsBox.style && styles.buzzedItemBox?.style
-            && {...styles.itemsBox.style, ...styles.buzzedItemBox.style}
-        )
-        || styles.itemsBox.style
-        || styles.buzzedItemBox?.style,
-    };
+    
+    const highlightItem = extendStyle(styles.itemsBox, styles.highlightItemBox),
+          buzzedItem = extendStyle(styles.itemsBox, styles.buzzedItemBox);
 
     const itemStyles = {
         close: styles.close,

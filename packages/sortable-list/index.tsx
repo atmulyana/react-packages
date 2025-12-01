@@ -3,11 +3,8 @@
  * https://github.com/atmulyana/react-packages
  **/
 import React from 'react';
+import {cancelEventHandler} from '@react-packages/common';
 import {emptyArray} from 'javascript-common';
-
-function cancelEventHandler(ev: Event) {
-    ev.preventDefault();
-}
 
 const Item = React.memo(function Item({
     $ref,

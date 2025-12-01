@@ -1,6 +1,6 @@
 {
     "name": "@react-packages/keywords",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "React component to input some keywords for database indexing or the metadata of search engine",
     "author": "AT Mulyana <atmulyana@yahoo.com>",
     "license": "MIT",
@@ -19,7 +19,7 @@
         "access": "public"
     },
     "scripts": {
-        "build": "node ../build-index.js keywords",
+        "build": "node ../build-index.js keywords common",
         "prepack": "npm run build && shx cp -u ../../LICENSE ./LICENSE"
     },
     "exports": {
@@ -33,6 +33,7 @@
         "index.*"
     ],
     "dependencies": {
+        "@react-packages/common": "^1.0.0",
         "javascript-common": ">=0.1.0"
     },
     "devDependencies": {

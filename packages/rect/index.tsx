@@ -3,6 +3,7 @@
  * https://github.com/atmulyana/react-packages
  */
 import React, {type CSSProperties} from 'react';
+import type {RCSS} from '@react-packages/common';
 import {setRef} from 'reactjs-common';
 import {emptyArray} from 'javascript-common';
 
@@ -12,7 +13,6 @@ type FlexBoxProps = {
     ratioY: number,
 };
 
-type RCSS = Readonly<CSSProperties>;
 export const styles: Readonly<{
     absoluteFill: RCSS,
     centeredContent: RCSS,

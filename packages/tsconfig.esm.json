@@ -1,5 +1,5 @@
 {
-    "extends": "./tsconfig",
+    "extends": "./tsconfig.cjs",
     "compilerOptions": {
         "module": "es2015",
         "moduleResolution": "bundler"
