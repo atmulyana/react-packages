@@ -1,6 +1,6 @@
 {
     "name": "@react-packages/simple-images-slider",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "React component to display the images slider (carousel)",
     "author": "AT Mulyana <atmulyana@yahoo.com>",
     "license": "MIT",

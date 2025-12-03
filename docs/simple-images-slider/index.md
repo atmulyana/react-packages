@@ -217,7 +217,54 @@ Only `images` is required, the other ones are optional.
   `start` is the start index number of the visible images. There may be more than one visible
   images. This function is invoked every time any change to selected index and/or start index.
 
+- `ref`  
+  As the other *React* components, this prop is get the instance object of the component. This `ref`
+  prop will return an object whose properties:
+  + `startIndex` is to get/set the start index of visible images. Setting this property will slide
+    the visible images.
+  + `selectedIndex` is to get/set the selected image index. If the new selected image won't be
+    visible because its index is not between start and end index of visible images then it will
+    also set the start visible index so that the new selected index will be visible.   
+    This property returns `-1` if no selected image. Setting it to the value less than zero or
+    greater than or equal to the count of images will cause no selected image.
+  
+  Example:
+  ```typescript
+  import SimpleImagesSlider, {type RefInstance} from '@react-packages/simple-images-slider';
+
+  ...
+
+  const slider = React.useRef<RefInstance>(null);
+  ...
+  <SimpleImagesSlider ref={slider} ... />
+  ...
+  <button onClick={() => { if (slider.current) slider.current.selectedIndex = 0; } }>Select First Image</button>
+  ...
+  ```
+
 - `selectedIndex`   
   is the index number of the selected image. After this prop is set to a new value, the image at
   the `selectedIndex`-th position will be selected. But after that, the user can still change the
-  selected image by clicking the sliding buttons. 
+  selected image by clicking/touching another image. Because of this, the current selected image
+  index may be different from the current value of `selectedIndex` prop. If after that, we try to
+  set `selectedIndex` prop to the same number, in order to select the image at the
+  `selectedIndex`-th position, it won't work because we set the same value for `selectedIndex` prop
+  that won't trigger re-rendering. To cope with this problem, we can use `new Number(selectedIndex)`
+  for the new value as shown in the following example:
+  ```typescript
+  const [index, setIndex] = React.useState<number| Number>(0);
+  
+  ...
+
+  <SimpleImagesSlider selectedIndex={index} ...  />
+
+  ...
+
+  <button
+    onClick={ () => {
+       /* Always selects the first image even if the user has selected another image */
+      setIndex(new Number(0)) 
+    } }
+  >Select First Image</button>
+  ```
+  > Please update to version 1.0.1 for this example works

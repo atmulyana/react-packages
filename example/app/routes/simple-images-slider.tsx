@@ -3,7 +3,7 @@
  * https://github.com/atmulyana/react-packages
  */
 import React from 'react';
-import SimpleImagesSlider, {createComponent} from '@react-packages/simple-images-slider';
+import SimpleImagesSlider, {createComponent, type RefInstance} from '@react-packages/simple-images-slider';
 const ImagesSlider = createComponent({
     maxVisibleCount: 1,
     ratioX: 3,
@@ -33,30 +33,50 @@ export function meta() {
 }
 
 export default function SimpleImagesSliderDemo() {
-    const [index, setIndex] = React.useState(0);
+    const thumbnails = React.useRef<RefInstance>(null);
+    const [index, setIndex] = React.useState<number| Number>(0);
     const [desc, setDesc] = React.useState('');
 
-    return <div className='flex flex-wrap md:flex-nowrap items-start p-4 gap-8'>
-        <div className='basis-full md:basis-1/3 flex-none md:ml-[calc(16.66667%-2rem)]'>
-            <div className='mb-4'>
-                <ImagesSlider 
+    return <div className='p-4'>
+        <div className='flex flex-wrap md:flex-nowrap items-start gap-8'>
+            <div className='basis-full md:basis-1/3 flex-none md:ml-[calc(16.66667%-2rem)]'>
+                <div className='mb-4'>
+                    <ImagesSlider 
+                        baseSrc='https://ichef.bbci.co.uk/images/ic/976x549_b/'
+                        images={srcSet}
+                        onChange={({start}) => {
+                            setIndex(start);
+                            setDesc(descriptions[start]);
+                        }}
+                        selectedIndex={index}
+                    />
+                </div>
+                <SimpleImagesSlider
+                    ref={thumbnails}
                     baseSrc='https://ichef.bbci.co.uk/images/ic/976x549_b/'
                     images={srcSet}
-                    onChange={({start}) => {
-                        setIndex(start);
-                        setDesc(descriptions[start]);
-                    }}
+                    onChange={({selected}) => setIndex(selected)}
                     selectedIndex={index}
                 />
             </div>
-            <SimpleImagesSlider
-                baseSrc='https://ichef.bbci.co.uk/images/ic/976x549_b/'
-                images={srcSet}
-                onChange={({selected}) => setIndex(selected)}
-                selectedIndex={index}
-            />
+            <pre className='basis-full md:basis-1/3 flex-none font-sans'>{desc}</pre>
         </div>
-        <pre className='basis-full md:basis-1/3 flex-none font-sans'>{desc}</pre>
+        <div className='flex gap-4 mt-4 md:ml-[calc(16.66667%-2rem)]'>
+            <button
+                className='bg-blue-500 cursor-pointer text-white px-4 py-2'
+                onClick={() => {
+                    if (thumbnails.current) thumbnails.current.selectedIndex = 0;
+                    //setIndex(0);
+                    //setIndex(new Number(0));
+                }}
+            >Select First Image</button>
+            <button
+                className='bg-blue-500 cursor-pointer text-white px-4 py-2'
+                onClick={() => {
+                    if (thumbnails.current) thumbnails.current.selectedIndex = srcSet.length - 1;
+                }}
+            >Select Last Image</button>
+        </div>
     </div>;
 }
 

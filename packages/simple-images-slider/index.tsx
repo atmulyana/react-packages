@@ -304,10 +304,11 @@ export function createComponent(parameters?: Params) {
         }, emptyArray);
 
         React.useEffect(() => {
-            let idx: number | null = null;
+            let idx = -1;
             if (selectedIndex instanceof Number) idx = selectedIndex.valueOf();
             else if (typeof(selectedIndex) == 'number') idx = selectedIndex;
-            if (idx !== null) setIndexes({selected: idx});
+            //else if (selectedIndex === undefined) {}
+            setIndexes({selected: idx});
         }, [selectedIndex]);
         
         React.useEffect(() => {
@@ -403,7 +404,7 @@ export function createComponent(parameters?: Params) {
             prevProps.$ref != nextProps.$ref ||
             prevProps.baseSrc?.toString() != nextProps.baseSrc?.toString() ||
             prevProps.onChange != nextProps.onChange ||
-            prevProps.selectedIndex != nextProps.selectedIndex ||
+            prevProps.selectedIndex !== nextProps.selectedIndex ||
             prevProps.images.length != nextProps.images.length
         ) return false;
         for (let i = 0; i < prevProps.images.length; i++) {
