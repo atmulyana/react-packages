@@ -1,0 +1,46 @@
+{
+    "name": "@react-packages/file-upload",
+    "version": "1.0.0",
+    "description": "React component which extends HTML file input by adding a view for the uploaded file(s). The view is to make sure that we're uploading the correct file(s).",
+    "author": "AT Mulyana <atmulyana@yahoo.com>",
+    "license": "MIT",
+    "repository": "https://github.com/atmulyana/react-packages",
+    "keywords": [
+        "react",
+        "component",
+        "file",
+        "input",
+        "upload",
+        "view"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "build": "node ../build-index.js file-upload common rect",
+        "prepack": "npm run build && shx cp -u ../../LICENSE ./LICENSE"
+    },
+    "exports": {
+        ".": {
+            "types": "./index.d.ts",
+            "import": "./index.mjs",
+            "default": "./index.js"
+        }
+    },
+    "files": [
+        "index.*"
+    ],
+    "dependencies": {
+        "@react-packages/common": "^1.0.0",
+        "@react-packages/rect": "^1.0.0",
+        "javascript-common": ">=0.1.0",
+        "reactjs-common": "^0.1.0"
+    },
+    "devDependencies": {
+        "@types/react": "^19.1.13",
+        "typescript": "^5.9.2"
+    },
+    "peerDependencies": {
+        "react": ">=16.8.0"
+    }
+}

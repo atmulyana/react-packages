@@ -1,0 +1,67 @@
+/**
+ * Example of custom CSS for `FileUpload` component
+ * https://github.com/atmulyana/react-packages
+ */
+
+ /* Common style for navigation buttons */
+.file-upload-btn-nav {
+    align-items: center;
+    background-color: black;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    flex: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+    height: 1.5rem;
+    justify-content: center;
+    opacity: 0.3;
+    width: 2rem;
+    z-index: 1;
+}
+.file-upload-view:hover .file-upload-btn-nav {
+    opacity: 1;
+}
+
+/* Handles dark mode */
+@media (prefers-color-scheme: dark) {
+    .file-upload-btn-nav {
+        background-color: white;
+        color: black;
+    }
+}
+.dark .file-upload-btn-nav {
+    background-color: white;
+    color: black;
+}
+
+/* Hide the default content of navigation buttons */
+.file-upload-btn-nav span {
+    display: none;
+}
+
+/* The content of left navigation button and its specific style */
+.file-upload-btn-nav:first-child::before {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    content: "«";
+}
+
+/* The content of right navigation button and its specific style */
+.file-upload-btn-nav:last-child::before {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    content: "»";
+}
+
+/**
+ * Hide the navigation buttons when:
+ * - Left button: the first file is being viewed
+ * - Right button: the last file is being viewed
+ * - Both buttons: the input is disabled (`disabled` prop is set)
+ */
+.file-upload-btn-nav:disabled {
+    visibility: hidden;
+}

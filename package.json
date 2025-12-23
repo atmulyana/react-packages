@@ -6,6 +6,7 @@
     "scripts": {
         "build:common": "npm run build --workspace=@react-packages/common",
         "build:ellipsis": "npm run build --workspace=@react-packages/ellipsis",
+        "build:file-upload": "npm run build --workspace=@react-packages/file-upload",
         "build:keywords": "npm run build --workspace=@react-packages/keywords",
         "build:rect": "npm run build --workspace=@react-packages/rect",
         "build:simple-images-slider": "npm run build --workspace=@react-packages/simple-images-slider",
@@ -15,6 +16,7 @@
     "workspaces": [
         "packages/common",
         "packages/ellipsis",
+        "packages/file-upload",
         "packages/keywords",
         "packages/rect",
         "packages/simple-images-slider",

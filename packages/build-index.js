@@ -45,6 +45,6 @@ try {
 }
 catch (err) {
     console.log(err);
-    console.log(err.stdout.toString());
-    console.log(err.stderr.toString());
+    if (err.stdout) console.log(err.stdout.toString());
+    if (err.stderr) console.log(err.stderr.toString());
 }

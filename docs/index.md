@@ -4,6 +4,7 @@ need to install the entire packages.
 
 The list of components:
 - [`Ellipsis`](./ellipsis/)
+- [`FileUpload`](./file-upload/)
 - [`Keywords`](./keywords/)
 - [`Rect`](./rect/)
 - [`SimpleImagesSlider`](./simple-images-slider/)
