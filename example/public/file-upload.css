@@ -42,17 +42,13 @@
     display: none;
 }
 
-/* The content of left navigation button and its specific style */
+/* The content of left navigation button */
 .file-upload-btn-nav:first-child::before {
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
     content: "«";
 }
 
-/* The content of right navigation button and its specific style */
+/* The content of right navigation button */
 .file-upload-btn-nav:last-child::before {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
     content: "»";
 }
 
