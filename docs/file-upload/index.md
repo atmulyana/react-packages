@@ -97,10 +97,10 @@ where `TStyle` is
   + `setViewIndex` is a function that must be invoked when the user chooses a file to view. The
     function accepts the index number of file in `files` array as the parameter.
   + `setVisible` is a function to close the popup. The function must be invoked with the parameter
-    `false`. In turn, it will set [`visible`](#options-ListPopup-visible) prop.
+    `false`. In turn, it will set [`visible`](#options-listpopup-visible) prop.
   + `viewIndex` is the index number of file in `files` array that is being viewed. There may be the
     different appearance style for the being viewed file in the list of file names.
-  + `visible`<a name="options-ListPopup-visible"></a>  determines the visibility of the popup. If
+  + `visible`<a name="options-listpopup-visible"></a>  determines the visibility of the popup. If
     `true`, the component should render the list of files. Otherwise, it should not display
     anything.
 
@@ -114,13 +114,13 @@ where `TStyle` is
 
 - `maxViewSize` <a name="options-maxviewsize"></a>   
   is the maximum size (in bytes) of file that can be viewed. If the size exceeds `maxViewSize`,
-  [`noViewImage`](#options-noViewImage) will be displayed as the view, instead of the content of
+  [`noViewImage`](#options-noviewimage) will be displayed as the view, instead of the content of
   file.  
   *Default value*: 10 Mb
 
 - `moreFile` <a name="options-morefile"></a>   
   Defines the content of popup button. If the user clicks the popup button, it will show the
-  [popup](#options-ListPopup) containing the list of files. ***Note***, `moreFile` defines the
+  [popup](#options-listpopup) containing the list of files. ***Note***, `moreFile` defines the
   **content** of the popup button, not the button itself. Please read 
   [The structure of elements](#the_structure_of_elements) section for more clear insight.
 
@@ -132,7 +132,7 @@ where `TStyle` is
 
   The popup button won't be visible if the user only selects one file to upload. It's also
   invisible if we set `moreFile` to be `null`. For the last case, we should also set
-  [`ListPopup`](#options-ListPopup) to be `null` because no way to show the popup. Also contraly,
+  [`ListPopup`](#options-listpopup) to be `null` because no way to show the popup. Also contraly,
   if `ListPopup` is `null` but `moreFile` is not `null`, the button won't work as expected because
   no popup shown when the button is clicked.
 
@@ -151,17 +151,17 @@ where `TStyle` is
 
 - `noViewImage` <a name="options-noviewimage"></a>   
   It will be displayed as the view if the file cannot be viewed. That is if it's not an audio,
-  image, text or video file. If its size exceeds [`maxViewSize`](#options-maxViewSize), it also
+  image, text or video file. If its size exceeds [`maxViewSize`](#options-maxviewsize), it also
   cannot be viewed.   
   *Default value*: an `svg` element depicts an icon.
 
 - `ratioX` <a name="options-ratiox"></a>   
-  Along with [`ratioY`](#options-ratioY), it determines the ratio between width and height of the
+  Along with [`ratioY`](#options-ratioy), it determines the ratio between width and height of the
   view area.   
   *Default value*: 1
 
 - `ratioY` <a name="options-ratioy"></a>   
-  Along with [`ratioX`](#options-ratioX), it determines the ratio between height and width of the
+  Along with [`ratioX`](#options-ratiox), it determines the ratio between height and width of the
   view area.   
   *Default value*: 1
 
