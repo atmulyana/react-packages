@@ -4,5 +4,5 @@ React component to create a thumbnail of an exisiting `<img/>` element without c
 thumbnail is created asynchronously. If we use another `<img/>` with the same `src` but smaller
 size then it will trigger another request to the server for the same resouce.
 
-Please see this [documentation](https://atmulyana.github.io/react-packages/thumbnail/) and this
-[example](https://github.com/atmulyana/react-packages/tree/main/example/app/routes/thumbnail.tsx).
+Please see this [documentation](https://atmulyana.github.io/react-packages/image-thumbnail/) and this
+[example](https://github.com/atmulyana/react-packages/tree/main/example/app/routes/image-thumbnail.tsx).
