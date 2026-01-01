@@ -95,7 +95,7 @@ where `TStyle` is
     &gt;
         {props.<a href="#props-image">image</a> ? (
             &lt;div {...<a href="#options-styles">styles</a>.content}>
-                &lt;canvas ... /> {/* This `canvas` element diplays the thumbnail image */}
+                &lt;canvas ... /> {/* This `canvas` element displays the thumbnail image */}
             &lt;/div>
         ) : <a href="#options-noimage">noImage</a>}
     &lt;/<a href='https://atmulyana.github.io/react-packages/rect/'>Rect</a>&gt;
