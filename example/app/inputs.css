@@ -1,0 +1,16 @@
+/**
+ * https://github.com/atmulyana/react-packages
+ */
+@reference "tailwindcss";
+.input {
+    @apply box-border m-0 py-1.5 px-3 text-base border border-solid border-gray-500 rounded-sm bg-clip-border;
+    height: calc(1.5rem /*line-height*/ + .75rem /*padding*/ + 2px /*border*/);
+}
+.btn {
+    @apply box-border overflow-visible border rounded-sm border-solid py-1.5 px-3
+        text-base text-center align-middle whitespace-nowrap cursor-pointer;
+    height: calc(1.5rem /*line-height*/ + .75rem /*padding*/ + 2px /*border*/);
+}
+button:disabled {
+    @apply opacity-60 pointer-events-none;
+}

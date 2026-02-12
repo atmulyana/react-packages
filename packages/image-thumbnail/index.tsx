@@ -3,7 +3,7 @@
  * https://github.com/atmulyana/react-packages
  **/
 import React from 'react';
-import {emptyObject} from 'javascript-common';
+import {emptyObject, objEquals} from 'javascript-common';
 import type {TStyle} from '@react-packages/common';
 import Rect, {styles as rectStyles} from '@react-packages/rect';
 
@@ -38,31 +38,57 @@ const defaults = {
 export function createComponent(parameters?: Params) {
     let {
         noImage = defaults.noImage,
-        ratioX = 1,
-        ratioY = 1,
+        ratioX: gRatioX = 1,
+        ratioY: gRatioY = 1,
         styles = defaults.styles,
     } = parameters ?? (emptyObject as Params);
-    ratioX = typeof(ratioX) != 'number' || isNaN(ratioX) ? 1 : Math.floor(ratioX);
-    if (ratioX < 1) ratioX = 1;
-    ratioY = typeof(ratioY) != 'number' || isNaN(ratioY) ? 1 : Math.floor(ratioY);
-    if (ratioY < 1) ratioY = 1;
+    gRatioX = typeof(gRatioX) != 'number' || isNaN(gRatioX) ? 1 : Math.floor(gRatioX);
+    if (gRatioX < 1) gRatioX = 1;
+    gRatioY = typeof(gRatioY) != 'number' || isNaN(gRatioY) ? 1 : Math.floor(gRatioY);
+    if (gRatioY < 1) gRatioY = 1;
 
-    function Thumbnail({className, image, style}: {image?: HTMLImageElement | null} & TStyle) {
+    const Thumbnail = React.memo(function Thumbnail({
+        className,
+        image,
+        onDrawn,
+        ratioX,
+        ratioY,
+        style
+    }: {
+        image?: HTMLImageElement | null,
+        onDrawn?: (canvas: HTMLCanvasElement) => any,
+        ratioX?: number,
+        ratioY?: number,
+    } & TStyle) {
         const canvas = React.useRef<HTMLCanvasElement>(null);
-        const [contentRendered, setContentRendered] = React.useState(false);
-        const [noThumbnail, setNoThumbnail] = React.useState(!image);
+        const [noThumbnail, setNoThumbnail] = React.useState<boolean | 0 | null>(!image);
 
         React.useEffect(() => {
             setNoThumbnail(!image);
         }, [image]);
+
+        React.useEffect(() => {
+            setNoThumbnail(noThumbnail => {
+                if (noThumbnail === 0 && canvas.current) {
+                    canvas.current.width = canvas.current.height = 1;
+                    return !image;
+                }
+                return noThumbnail;
+            })
+        }, [ratioX, ratioY, className, style]);
         
         React.useEffect(() => {
-            if (!canvas.current) return;
-            const canv = canvas.current;
-            const canvCont = canvas.current.parentElement?.parentElement as HTMLElement;
-            const maxHeight = canvCont.offsetHeight,
-                  maxWidth = canvCont.offsetWidth;
-            if (image) {
+            if (noThumbnail === 0) {
+                if (typeof(onDrawn) == 'function' && canvas.current) {
+                    onDrawn(canvas.current);
+                }
+            }
+            else if (image) {
+                if (!canvas.current) return;
+                const canv = canvas.current;
+                const canvCont = canvas.current.parentElement?.parentElement as HTMLElement;
+                const maxHeight = canvCont.offsetHeight,
+                      maxWidth = canvCont.offsetWidth;
                 image.decode().then(() => {
                     const imgHeight = image.naturalHeight, imgWidth = image.naturalWidth;
                     let width = maxHeight * imgWidth / imgHeight,
@@ -86,19 +112,27 @@ export function createComponent(parameters?: Params) {
                     canv.width = width;
                     const ctx = canv.getContext('2d');
                     ctx?.drawImage(image, 0, 0, imgWidth, imgHeight, 0, 0, width, height);
+                    setNoThumbnail(0);
                 }).catch(() => setNoThumbnail(true));
             }
             else {
                 setNoThumbnail(true);
             }
-        }, [noThumbnail, contentRendered]);
+        }, [noThumbnail]);
 
         return <div className={className} style={style}>
             <Rect
                 {...styles.background}
-                onRendered={isRendered => setContentRendered(isRendered)}
-                ratioX={ratioX}
-                ratioY={ratioY}
+                onRendered={isRendered => {
+                    if (isRendered) {
+                        setNoThumbnail(noThumbnail => {
+                            if (!image) return true;
+                            return noThumbnail === false ? null : false; //setting the different value forces the canvas to be redrawn 
+                        });
+                    }
+                }}
+                ratioX={ratioX ?? gRatioX}
+                ratioY={ratioY ?? gRatioY}
             >
                 {noThumbnail ? noImage : <div {...styles.content}>
                     <canvas ref={canvas} height={1} width={1}>
@@ -106,7 +140,25 @@ export function createComponent(parameters?: Params) {
                 </div>}
             </Rect>
         </div>
-    }
+    },
+        (prevProps, nextProps) => {
+            let ratio1: number, ratio2: number;
+            return prevProps.className == nextProps.className
+                && prevProps.image == nextProps.image
+                //&& prevProps.onDrawn == nextProps.onDrawn
+                && (
+                    ratio1 = prevProps.ratioX ?? 1,
+                    ratio2 = nextProps.ratioX ?? 1,
+                    Math.max(ratio1, 1) == Math.max(ratio2, 1)
+                )
+                && (
+                    ratio1 = prevProps.ratioY ?? 1,
+                    ratio2 = nextProps.ratioY ?? 1,
+                    Math.max(ratio1, 1) == Math.max(ratio2, 1)
+                )
+                && objEquals(prevProps.style, nextProps.style);
+        }
+    );
     return Thumbnail;
 }
 

@@ -1,6 +1,6 @@
 {
     "name": "@react-packages/image-thumbnail",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "React component to create a thumbnail of an exisiting `<img/>` element without creating a new `<img/>` with the same `src`. Useful for a non-cached/dynamic image because of no double request to the server.",
     "author": "AT Mulyana <atmulyana@yahoo.com>",
     "license": "MIT",
@@ -33,7 +33,7 @@
     "dependencies": {
         "@react-packages/common": "^1.0.0",
         "@react-packages/rect": "^1.0.0",
-        "javascript-common": ">=0.1.0"
+        "javascript-common": ">=0.2.0"
     },
     "devDependencies": {
         "@types/react": "^19.1.13",

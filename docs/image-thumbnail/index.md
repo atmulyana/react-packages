@@ -25,10 +25,36 @@ const imgRef = React.useRef<HTMLImageElement>(null);
 ```
 
 ### The component props
-- `image`<a name="props-image"></a>  
-  It's the reference of `img` element that the thumbnail will reflect the image from it.
 - `classNamee`<a name="props-classname"></a>  
   CSS class name(s).
+
+- `image`<a name="props-image"></a>  
+  It's the reference of `img` element that the thumbnail will reflect the image from it.
+
+- `onDrawn`<a name="props-onDrawn"></a>  
+  It's a function that will be invoked when the thumbnail has been (re)drawn. This function has one
+  parameter whose type of `HTMLCanvasElement` object. This object is the reference to the `canvas`
+  element where the thumbnail was drawn.
+  > This function may be re-invoked when `Thumbnail` component is re-rendered in the case that the
+  > thumbnail must be redrawn. 
+
+- `ratioX`<a name="props-ratiox"></a>   
+  Along with [`ratioY`](#props-ratioy), it determines the ratio between width and height of the
+  thumbnail area.   
+  *Default value*: the value of [`ratioX`](#options-ratiox) parameter of `createComponent` function.
+
+- `ratioY`<a name="props-ratioy"></a>   
+  Along with [`ratioX`](#props-ratiox), it determines the ratio between height and width of the
+  thumbnail area.   
+  *Default value*: the value of [`ratioY`](#options-ratioy) parameter of `createComponent` function.
+
+  > Setting `ratioX` and `ratioY` may not fit the actual size of image. It will cause the extra
+  > spaces or the thumbnail image is clipped. To avoid it you can set `ratioX` to the actual width
+  > of the image and `ratioY` to the actual height. You may see a more advanced example
+  > [here](https://github.com/atmulyana/react-packages/tree/main/example/app/routes/image-watermark.tsx).
+  > `ratioX` and `ratioY` exist to make the size of thumbnail doesn't change when the
+  > [`image`](#props-image) changes so that it won't mess the layout.
+
 - `style`<a name="props-style"></a>   
   Inline CSS style.
 
